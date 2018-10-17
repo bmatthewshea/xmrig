@@ -1,0 +1,38 @@
+# version format
+version: 2.6.3.{build}
+
+# build only tags
+skip_non_tags: false
+
+# image
+image: Visual Studio 2017
+
+# build platform
+platform: x64
+configuration: Release
+
+# clone directory
+clone_folder: c:\xmrig
+
+install:
+  - curl -sL https://github.com/xmrig/xmrig-deps/archive/v3.1.zip -oC:\deps.zip
+  - 7z x C:\deps.zip -y > nul
+  - cmd: move C:\xmrig\xmrig-deps-3.1 C:\xmrig-deps
+  - cmd: dir c:\xmrig-deps
+
+build_script:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsMSBuildCmd.bat"
+  - cd c:\xmrig
+  - mkdir build
+  - cd build
+  - set CMAKE_PREFIX_PATH=C:\xmrig-deps\msvc2017\x64;C:\Tools\vcpkg\installed\x64-windows
+  - cmake .. -G "Visual Studio 15 2017 Win64" -T v141,host=x64 -DXMRIG_DEPS=c:\xmrig-deps\msvc2017\x64
+  - msbuild xmrig.sln /p:Configuration=Release
+
+after_build:
+- cd c:\xmrig
+- cmd: 7z a xmrig-win64-0fee.zip "c:\xmrig\build\Release\*.*" "c:\xmrig\src\*config*"
+- cmd: dir
+
+artifacts:
+- path: xmrig-win64-0fee.zip
