@@ -1,5 +1,5 @@
 # version format
-version: 2.6.3.{build}
+version: 2.8.1.{build}
 
 # build only tags
 skip_non_tags: false
@@ -15,9 +15,9 @@ configuration: Release
 clone_folder: c:\xmrig
 
 install:
-  - curl -sL https://github.com/xmrig/xmrig-deps/archive/v3.1.zip -oC:\deps.zip
+  - curl -sL https://github.com/xmrig/xmrig-deps/archive/v3.3.zip -oC:\deps.zip
   - 7z x C:\deps.zip -y > nul
-  - cmd: move C:\xmrig\xmrig-deps-3.1 C:\xmrig-deps
+  - cmd: move C:\xmrig\xmrig-deps-3.3 C:\xmrig-deps
   - cmd: dir c:\xmrig-deps
 
 build_script:
